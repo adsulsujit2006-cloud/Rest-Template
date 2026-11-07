@@ -1,0 +1,30 @@
+package com.bookmyshow_services.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.bookmyshow_services.dto.response.MovieResponse;
+import com.bookmyshow_services.services.MovieServices;
+
+import lombok.extern.slf4j.Slf4j;
+
+@RestController
+@RequestMapping("/bookmyshow")
+@Slf4j
+public class BookMyShowController {
+
+	@Autowired
+	public MovieServices movieServices;
+
+	@GetMapping("/movies")
+	public ResponseEntity<List<MovieResponse>> getAllMovies() {
+		log.info("REST Request : Get All Movies with third party services ");
+		return ResponseEntity.ok(movieServices.getAllMovies());
+	}
+
+}
