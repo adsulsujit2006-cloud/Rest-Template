@@ -27,5 +27,33 @@ public class GlobalExceptionHandler {
 
 	        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
 	    }
+	  
+	  @ExceptionHandler(NullPointerException.class)
+	  public ResponseEntity<ErrorResponse> handleNullValue(NullPointerException ex,HttpServletRequest request){
+		  ErrorResponse response = ErrorResponse.builder()
+	                .timestmp(LocalDateTime.now())
+	                .status(HttpStatus.CONFLICT.value())
+	                .error(HttpStatus.CONFLICT.getReasonPhrase())
+	                .message(ex.getMessage())
+	                .path(request.getRequestURI())
+	                .build();
+
+	        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+	    }
+	  
+	  
+	  @ExceptionHandler(IllegalArgumentException.class)
+	  public ResponseEntity<ErrorResponse> handleIllegalArg(IllegalArgumentException ex,HttpServletRequest request){
+		  ErrorResponse response = ErrorResponse.builder()
+	                .timestmp(LocalDateTime.now())
+	                .status(HttpStatus.CONFLICT.value())
+	                .error(HttpStatus.CONFLICT.getReasonPhrase())
+	                .message(ex.getMessage())
+	                .path(request.getRequestURI())
+	                .build();
+
+	        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+	    }
+	  }
 	 
-}
+

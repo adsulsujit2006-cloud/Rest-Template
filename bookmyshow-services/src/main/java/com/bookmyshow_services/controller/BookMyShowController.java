@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +26,13 @@ public class BookMyShowController {
 	public ResponseEntity<List<MovieResponse>> getAllMovies() {
 		log.info("REST Request : Get All Movies with third party services ");
 		return ResponseEntity.ok(movieServices.getAllMovies());
+	}
+	
+	@GetMapping("/movie/{id}")
+	public ResponseEntity<String> getMovie(@PathVariable long id){
+		
+		return ResponseEntity.ok(movieServices.getMovie(id));
+		
 	}
 
 }
