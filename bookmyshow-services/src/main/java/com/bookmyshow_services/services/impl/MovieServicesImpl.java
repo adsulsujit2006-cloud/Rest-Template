@@ -3,11 +3,16 @@ package com.bookmyshow_services.services.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import com.bookmyshow_services.dto.response.Movies;
 import com.bookmyshow_services.exception.IllegalArgumentException;
 
 import com.bookmyshow_services.exception.ResourceNotFoundException;
+import com.bookmyshow_services.modal.BookingDetails;
+import com.bookmyshow_services.repository.BookingRepository;
 import com.bookmyshow_services.services.MovieServices;
 
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +24,9 @@ public class MovieServicesImpl implements MovieServices{
 	
 	@Autowired
 	private RestTemplate restTemplate;
+	
+	@Autowired
+	private BookingRepository bookingRepository;
 	
 	
 
@@ -53,6 +61,32 @@ public class MovieServicesImpl implements MovieServices{
 		}
 		
 		return movie;
+	}
+
+
+
+	@Override
+	public String bookMyTicket(BookingDetails bookingDetails) {
+
+		int movieId = bookingDetails.getMovieId();
+		
+		ResponseEntity response = restTemplate.getForEntity(url+"/"+movieId, Movies.class);
+		
+		Movies movie = (Movies) response.getBody();
+		
+		bookingDetails.setMovieName(movie.getMovieName());
+		
+		if(bookingDetails.getTotalNumberOfBooking() > movie.getAvailableSeats())
+		{
+			throw new RuntimeException("Seats not available");
+		}
+		
+		bookingRepository.save(bookingDetails);
+		
+		restTemplate.put(url+"/updateSeats/"+movieId+"/"+bookingDetails.getTotalNumberOfBooking(), null);
+		
+		return "Booking Confirmed";
+
 	}
 
 	

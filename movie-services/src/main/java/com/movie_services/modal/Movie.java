@@ -44,7 +44,7 @@ public class Movie {
 	
 	private Double price;
 
-	private Integer availableSeats;
+	private Long availableSeats;
 	
 	@CreationTimestamp
 	private LocalDate registerDate;

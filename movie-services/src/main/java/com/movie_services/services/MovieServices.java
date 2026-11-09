@@ -12,4 +12,6 @@ public interface MovieServices {
 	public List<MovieResponse> getAllMovie();
 	
 	public MovieResponse getMovieById(long id) throws Exception;
+	
+	public void updateMovie(Long movieId, Long seats);
 }
