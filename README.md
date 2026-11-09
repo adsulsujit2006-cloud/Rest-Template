@@ -53,6 +53,9 @@ Rest-Template
 - Maven
 - REST APIs
 - Git and GitHub
+- Model mappar
+- Smpt (Java maile services)
+- DTO : Digin Pattern
 
 ## 🔄 Microservices Communication
 
